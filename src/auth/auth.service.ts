@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/regiser.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -49,6 +50,7 @@ export class AuthService {
     };
   }
 
+  @ApiBearerAuth('JwtAuth')
   async profile(user: any) {
     const dataUser = await this.prismaService.users.findFirst({
       where: {
@@ -103,6 +105,7 @@ export class AuthService {
     }
   }
 
+  @ApiBearerAuth('JwtAuth')
   async uploadAvatar(userId: number, avatar: string) {
     const user = await this.prismaService.users.findFirst({
       where: {

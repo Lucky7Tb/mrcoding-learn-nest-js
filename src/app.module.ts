@@ -6,10 +6,9 @@ import { TaskModule } from './task/task.module';
 import { AppController } from './app.controller';
 import { PassportModule } from '@nestjs/passport';
 import { PrismaModule } from './prisma/prisma.module';
+import { SchoolModule } from './school/school.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { JwtStrategy } from './auth/strategy/jwt.strategy';
-import { SchoolModule } from './school/school.module';
-import { SchoolModule } from './school/school.module';
 
 @Module({
   imports: [

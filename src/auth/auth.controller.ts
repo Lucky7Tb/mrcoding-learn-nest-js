@@ -10,12 +10,14 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { diskStorage } from 'multer';
+import { ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/regiser.dto';
 import { JwtAuthGuard } from 'common/guards/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

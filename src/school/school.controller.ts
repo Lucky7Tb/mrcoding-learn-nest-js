@@ -7,10 +7,12 @@ import {
   Delete,
   Controller,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { SchoolService } from './school.service';
 import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
 
+@ApiTags('School')
 @Controller('school')
 export class SchoolController {
   constructor(private readonly schoolService: SchoolService) {}
