@@ -5,11 +5,16 @@ import {
   Request,
   UseGuards,
   Controller,
+  UseInterceptors,
+  Req,
+  UploadedFile,
 } from '@nestjs/common';
+import { diskStorage } from 'multer';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/regiser.dto';
 import { JwtAuthGuard } from 'common/guards/jwt.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 export class AuthController {
@@ -29,5 +34,24 @@ export class AuthController {
   @Get('profile')
   profile(@Request() req) {
     return req.user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      storage: diskStorage({
+        destination: 'public/uploads/image',
+        filename: (_, file, callback) => {
+          callback(null, file.originalname);
+        },
+      }),
+    }),
+  )
+  @Post('avatar')
+  uploadAvatar(@Req() req, @UploadedFile() file: Express.Multer.File) {
+    return this.authService.uploadAvatar(
+      req.user.id,
+      '/uploads/image/' + file.filename,
+    );
   }
 }

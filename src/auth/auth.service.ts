@@ -79,4 +79,29 @@ export class AuthService {
       };
     }
   }
+
+  async uploadAvatar(userId: number, avatar: string) {
+    const user = await this.prismaService.users.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (user) {
+      const updateAvatar = await this.prismaService.users.update({
+        data: {
+          avatar,
+        },
+        where: {
+          id: userId,
+        },
+      });
+      if (updateAvatar) {
+        return {
+          statusCode: HttpStatus.OK,
+          message: 'Success upload avatar',
+        };
+      }
+    }
+  }
 }
