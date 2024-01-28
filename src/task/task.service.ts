@@ -7,8 +7,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 export class TaskService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createTask(data: CreateTaskDto) {
-    const createdTask = await this.prismaService.tasks.create({ data });
+  async createTask(data: CreateTaskDto, user: any) {
+    const createdTask = await this.prismaService.tasks.create({
+      data: { ...data, id_user: user.id },
+    });
 
     return {
       statusCode: 200,
@@ -16,8 +18,10 @@ export class TaskService {
     };
   }
 
-  async getAllTask() {
-    const tasks = await this.prismaService.tasks.findMany();
+  async getAllTask(user: any) {
+    const tasks = await this.prismaService.tasks.findMany({
+      where: { id_user: user.id },
+    });
 
     return {
       statusCode: 200,
@@ -25,10 +29,10 @@ export class TaskService {
     };
   }
 
-  async getTaskById(id: number) {
+  async getTaskById(id: number, user: any) {
     try {
       const task = await this.prismaService.tasks.findFirstOrThrow({
-        where: { id },
+        where: { id, id_user: user.id },
       });
 
       return {
@@ -48,10 +52,10 @@ export class TaskService {
     }
   }
 
-  async updateTask(id: number, data: UpdateTaskDto) {
+  async updateTask(id: number, data: UpdateTaskDto, user: any) {
     try {
       const task = await this.prismaService.tasks.update({
-        where: { id },
+        where: { id, id_user: user.id },
         data,
       });
 
@@ -72,10 +76,10 @@ export class TaskService {
     }
   }
 
-  async deleteTask(id: number) {
+  async deleteTask(id: number, user: any) {
     try {
       const task = await this.prismaService.tasks.delete({
-        where: { id },
+        where: { id, id_user: user.id },
       });
 
       return {

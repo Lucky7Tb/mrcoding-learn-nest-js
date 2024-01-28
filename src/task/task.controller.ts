@@ -1,6 +1,7 @@
 import {
   Get,
   Put,
+  Req,
   Body,
   Post,
   Param,
@@ -20,30 +21,31 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  async createTask(@Body() body: CreateTaskDto) {
-    return await this.taskService.createTask(body);
+  async createTask(@Body() body: CreateTaskDto, @Req() req: any) {
+    return await this.taskService.createTask(body, req.user);
   }
 
   @Get()
-  async getAllTask() {
-    return await this.taskService.getAllTask();
+  async getAllTask(@Req() req: any) {
+    return await this.taskService.getAllTask(req.user);
   }
 
   @Get(':id')
-  async getTaskById(@Param('id', ParseIntPipe) id: number) {
-    return await this.taskService.getTaskById(id);
+  async getTaskById(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return await this.taskService.getTaskById(id, req.user);
   }
 
   @Put(':id')
   async updateTask(
     @Param('id', ParseIntPipe) id: number,
+    @Req() req: any,
     @Body() body: UpdateTaskDto,
   ) {
-    return await this.taskService.updateTask(id, body);
+    return await this.taskService.updateTask(id, body, req.user);
   }
 
   @Delete(':id')
-  async deleteTask(@Param('id', ParseIntPipe) id: number) {
-    return await this.taskService.deleteTask(id);
+  async deleteTask(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return await this.taskService.deleteTask(id, req.user);
   }
 }
