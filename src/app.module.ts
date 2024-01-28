@@ -8,6 +8,8 @@ import { PassportModule } from '@nestjs/passport';
 import { PrismaModule } from './prisma/prisma.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { JwtStrategy } from './auth/strategy/jwt.strategy';
+import { SchoolModule } from './school/school.module';
+import { SchoolModule } from './school/school.module';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { JwtStrategy } from './auth/strategy/jwt.strategy';
     PrismaModule,
     AuthModule,
     PassportModule,
+    SchoolModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

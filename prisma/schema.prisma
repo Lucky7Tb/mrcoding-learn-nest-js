@@ -28,3 +28,12 @@ model users {
   created_at DateTime @default(now())
   tasks      tasks[]
 }
+
+model schools {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String?   @unique
+  address    String?
+  phone      String?
+  created_at DateTime @default(now())
+}
