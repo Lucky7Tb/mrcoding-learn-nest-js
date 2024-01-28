@@ -49,6 +49,29 @@ export class AuthService {
     };
   }
 
+  async profile(user: any) {
+    const dataUser = await this.prismaService.users.findFirst({
+      where: {
+        id: user.id,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: true,
+        tasks: true,
+      },
+    });
+
+    if (dataUser) {
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Success get profile',
+        data: dataUser,
+      };
+    }
+  }
+
   async register(registerDto: RegisterDto) {
     const user = await this.prismaService.users.findFirst({
       where: { email: registerDto.email },
